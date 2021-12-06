@@ -39,11 +39,11 @@ class JdExpress {
 	 *
 	 * @return false|mixed
 	 */
-	public function  jd_common_request($config, $methods, $business){
+	public function jd_common_request( $config, $methods, $business ) {
 		//时间
 		$date = date( "Y-m-d H:i:s", time() );
 		//需要签名的参数
-		$needQianMing = [
+		$needQM = [
 			'access_token' => $config['access_token'],
 			'app_key'      => $config['app_key'],
 			"method"       => $methods,
@@ -53,16 +53,16 @@ class JdExpress {
 		];
 
 		//业务参数
-		$needQianMing['360buy_param_json'] = json_encode( $business );
+		$needQM['360buy_param_json'] = json_encode( $business );
 
 		//秘钥
 		$app_secret = $config['app_secret'];
 
 		//得出签名
-		$needQianMing['sign'] = $this->sign( $needQianMing, $app_secret );
+		$needQM['sign'] = $this->sign( $needQM, $app_secret );
 
 		$url    = "https://api.jd.com/routerjson";
-		$client = new Client();
+		$client = new Client(['timeout'=> 5]);
 
 		//url参数
 		$url_params = [
@@ -71,7 +71,7 @@ class JdExpress {
 			'app_key'           => $config['app_key'],
 			'timestamp'         => $date,
 			'v'                 => "2.0",
-			"sign"              => $needQianMing['sign'],
+			"sign"              => $needQM['sign'],
 			"sign_method"       => 'md5',
 			'360buy_param_json' => json_encode( $business ),
 		];
@@ -86,17 +86,10 @@ class JdExpress {
 
 		$result = $res->getBody()->getContents();
 		$info   = json_decode( $result, true );
-
 		if ( empty( $info ) ) {
 			return false;
 		}
 
 		return $info;
 	}
-
-
-	public function test(){
-		return 333;
-	}
-
 }
