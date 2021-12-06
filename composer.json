@@ -1,0 +1,21 @@
+{
+    "name": "zfq/express",
+    "description": "这是一个多家物流公司的封装",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Zfq\\Express\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "zhufengquan",
+            "email": "530497500@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "6.3"
+    }
+}
