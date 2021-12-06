@@ -94,4 +94,9 @@ class JdExpress {
 		return $info;
 	}
 
+
+	public function test(){
+		return 333;
+	}
+
 }
