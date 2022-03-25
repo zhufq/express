@@ -4,6 +4,7 @@ namespace Zfq\Express;
 
 use GuzzleHttp\Client;
 
+
 class DbExpress {
 
 	/**
@@ -31,21 +32,24 @@ class DbExpress {
 			'timestamp'   => $timestamp,
 		];
 
-//        Log::info('ceshi1111',$data);
-		//发送请求
-		$client   = new Client( [ 'time_out' => 5 ] );
-		$response = $client->request( 'POST', $url, [
-			'form_params' => $data,
-		] );
+		try {
+			//发送请求
+			$client   = new Client( [ 'time_out' => 5 ] );
+			$response = $client->request( 'POST', $url, [
+				'form_params' => $data,
+			] );
 
-		$body = $response->getBody()->getContents();
-		$res  = json_decode( $body, true );
+			$body = $response->getBody()->getContents();
+			$res  = json_decode( $body, true );
 
-		if(!$res){
+			if(!$res){
+				return false;
+			}
+
+			return $res;
+
+		}catch (\Exception $e){
 			return false;
 		}
-
-		return $res;
-
 	}
 }
